@@ -13,6 +13,14 @@ const routes:RouteRecordRaw[] = [
         },
         component: () => import ("../view/home.vue")
     },
+    {
+        path: "/origin",
+        name: "origin",
+        meta: {
+
+        },
+        component: () => import ("../view/origin.vue")
+    },
 ]
 
 export default routes;

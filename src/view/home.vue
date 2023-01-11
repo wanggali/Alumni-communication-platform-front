@@ -153,6 +153,9 @@
         </el-card>
       </div>
       <el-empty v-show="indexInfo?.dynamics?.length===0" :image-size="200"/>
+      <div style="text-align: center;margin-top: 15px">
+        <el-button color="#d5ebe1" :icon="IceCreamRound" round>点击查看更多</el-button>
+      </div>
     </el-col>
     <el-col :span="8">
       <div class="content">
@@ -186,6 +189,7 @@ import {TabsPaneContext, ElMessage} from "element-plus";
 import {getNoticeInfo} from "../api/notice";
 import {getIndexInfo} from "../api/home";
 import _ from "lodash";
+import {IceCreamRound} from '@element-plus/icons-vue'
 import {addDiscussUpInfo} from "../api/discuss";
 import {addDynamicUpInfo} from "../api/dynamic";
 
