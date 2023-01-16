@@ -8,3 +8,11 @@ export const addDynamicUpInfo = (data: any) => {
     });
 };
 
+export const getDynamicInfo = (data: any) => {
+    return request({
+        url: '/dynamic/getDynamicByPageOrParam',
+        method: 'post',
+        data: data
+    });
+};
+

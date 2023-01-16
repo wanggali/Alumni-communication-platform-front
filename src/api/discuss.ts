@@ -8,3 +8,11 @@ export const addDiscussUpInfo = (data: any) => {
     });
 };
 
+export const getDiscussInfo = (data: any) => {
+    return request({
+        url: '/discuss/getDiscussByPageOrParam',
+        method: 'post',
+        data: data
+    });
+};
+

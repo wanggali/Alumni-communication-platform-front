@@ -154,7 +154,7 @@
       </div>
       <el-empty v-show="indexInfo?.dynamics?.length===0" :image-size="200"/>
       <div style="text-align: center;margin-top: 15px">
-        <el-button color="#d5ebe1" :icon="IceCreamRound" round>点击查看更多</el-button>
+        <el-button color="#d5ebe1" :icon="IceCreamRound" round @click="$router.push('posts')">点击查看更多</el-button>
       </div>
     </el-col>
     <el-col :span="8">

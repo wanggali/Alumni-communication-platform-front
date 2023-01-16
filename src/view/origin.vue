@@ -24,10 +24,6 @@
             </el-form-item>
           </el-form>
         </el-col>
-        <el-col :span="10">
-          <div class="choose-img">
-          </div>
-        </el-col>
       </el-row>
     </el-card>
   </div>
@@ -183,14 +179,6 @@ const getOriginUser = async (id: number) => {
   margin-top: 12px;
   margin-right: 12px;
   border-radius: 50%;
-}
-
-.origin-choose .box-card .choose-img {
-  background-image: url("../assets/image/origin-back.png");
-  width: 100%;
-  height: 100%;
-  background-size: 100% 100%;
-  background-repeat: no-repeat
 }
 
 .origin-choose {
