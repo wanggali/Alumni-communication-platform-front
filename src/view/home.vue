@@ -41,9 +41,9 @@
           </template>
           <div class="message">
             <div class="text">
-              <a target="_blank" href="">
+              <router-link target="_blank" :to="`/post/${item.id}`">
                 <h5>{{ item.title }}</h5>
-              </a>
+              </router-link>
               <v-md-preview :text="item.message"></v-md-preview>
               <el-tag type="success" round>{{ item.tagName }}</el-tag>
               <div style="margin-top: 12px;">
@@ -94,9 +94,9 @@
           </template>
           <div class="message">
             <div class="text">
-              <a target="_blank" href="">
+              <router-link target="_blank" :to="`/question/${item.id}`">
                 <h5>{{ item.title }}</h5>
-              </a>
+              </router-link>
               <v-md-preview :text="item.content"></v-md-preview>
               <el-tag type="success" round>{{ item.tagName }}</el-tag>
               <div style="margin-top: 12px;">
@@ -134,9 +134,9 @@
           </template>
           <div class="message">
             <div class="text">
-              <a target="_blank" href="">
+              <router-link target="_blank" :to="`/dynamic/${item.id}`">
                 <h5>首页动态</h5>
-              </a>
+              </router-link>
               <v-md-preview :text="item.content"></v-md-preview>
               <el-tag type="success" round>{{ item.tagName }}</el-tag>
               <div style="margin-top: 12px;">
@@ -154,7 +154,7 @@
       </div>
       <el-empty v-show="indexInfo?.dynamics?.length===0" :image-size="200"/>
       <div style="text-align: center;margin-top: 15px">
-        <el-button color="#d5ebe1" :icon="IceCreamRound" round @click="$router.push('posts')">点击查看更多</el-button>
+        <el-button color="#d5ebe1" :icon="IceCreamRound" round @click="$router.push('/posts')">点击查看更多</el-button>
       </div>
     </el-col>
     <el-col :span="8">

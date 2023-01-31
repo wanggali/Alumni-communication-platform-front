@@ -11,7 +11,7 @@
             <el-form-item label="标签名">
               <tag-select @get-tag-id="getTagId"/>
             </el-form-item>
-            <el-form-item label="标签/内容">
+            <el-form-item label="标题/内容">
               <el-input v-model="getPostsReq.title"/>
             </el-form-item>
             <el-form-item>
@@ -51,9 +51,9 @@
               </template>
               <div class="message">
                 <div class="text">
-                  <a target="_blank" href="">
+                  <router-link target="_blank" :to="`/post/${item.id}`">
                     <h5>{{ item.title }}</h5>
-                  </a>
+                  </router-link>
                   <v-md-preview :text="item.message"></v-md-preview>
                   <el-tag type="success" round>{{ item.tagName }}</el-tag>
                   <div style="margin-top: 12px;">
@@ -113,9 +113,9 @@
               </template>
               <div class="message">
                 <div class="text">
-                  <a target="_blank" href="">
+                  <router-link target="_blank" :to="`/question/${item.id}`">
                     <h5>{{ item.title }}</h5>
-                  </a>
+                  </router-link>
                   <v-md-preview :text="item.content"></v-md-preview>
                   <el-tag type="success" round>{{ item.tagName }}</el-tag>
                   <div style="margin-top: 12px;">
@@ -161,9 +161,9 @@
               </template>
               <div class="message">
                 <div class="text">
-                  <a target="_blank">
-                    <h5>动态</h5>
-                  </a>
+                  <router-link target="_blank" :to="`/dynamic/${item.id}`">
+                    <h5>首页动态</h5>
+                  </router-link>
                   <v-md-preview :text="item.content"></v-md-preview>
                   <el-tag type="success" round>{{ item.tagName }}</el-tag>
                   <div style="margin-top: 12px;">

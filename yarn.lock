@@ -2357,6 +2357,11 @@ markdown-it@^8.4.1:
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
 
+md-editor-v3@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.npmmirror.com/md-editor-v3/-/md-editor-v3-2.7.2.tgz#433883f21b1133775c2d4433e38bc4833bd8201e"
+  integrity sha512-CyLG7yZhMyKplXO/MYIccpL0AOcnys74cMpbBG77rmXWlANAmzLrznUU++g6MohTv3DCRNTz+5Uh/w9h9P2sSA==
+
 mdurl@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmmirror.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"

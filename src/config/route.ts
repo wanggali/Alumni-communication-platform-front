@@ -29,6 +29,30 @@ const routes:RouteRecordRaw[] = [
         },
         component: () => import ("../view/posts.vue")
     },
+    {
+        path: "/post/:id",
+        name: "post",
+        meta: {
+
+        },
+        component: () => import ("../view/post.vue")
+    },
+    {
+        path: "/question/:id",
+        name: "question",
+        meta: {
+
+        },
+        component: () => import ("../view/question.vue")
+    },
+    {
+        path: "/dynamic/:id",
+        name: "dynamic",
+        meta: {
+
+        },
+        component: () => import ("../view/dynamic.vue")
+    },
 ]
 
 export default routes;

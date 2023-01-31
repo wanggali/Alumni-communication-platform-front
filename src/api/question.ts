@@ -8,3 +8,10 @@ export const getQuestionInfo = (data: any) => {
     });
 };
 
+export const getQuestionInfoById = (data: any) => {
+    return request({
+        url: `/question/getQuestionInfoById/${data}`,
+        method: 'get',
+    });
+};
+

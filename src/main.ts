@@ -1,8 +1,8 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import * as VueRouter from 'vue-router'
 import routes from "./config/route";
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
@@ -23,6 +23,10 @@ const router = VueRouter.createRouter({
     // 4. 内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。
     history: VueRouter.createWebHashHistory(),
     routes, // `routes: routes` 的缩写
+    scrollBehavior(to, from, savedPosition) {
+        // 始终滚动到顶部
+        return {top: 0}
+    },
 })
 //创建持久化存储库，类似于以前的vuex
 const pinia = createPinia()

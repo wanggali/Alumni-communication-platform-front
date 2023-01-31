@@ -16,3 +16,10 @@ export const getDiscussInfo = (data: any) => {
     });
 };
 
+export const getDiscussInfoById = (data: any) => {
+    return request({
+        url: `/discuss/getDiscussInfoById/${data}`,
+        method: 'get'
+    });
+};
+

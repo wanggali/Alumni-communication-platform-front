@@ -16,3 +16,18 @@ export const getDynamicInfo = (data: any) => {
     });
 };
 
+export const getDynamicInfoById = (data: any) => {
+    return request({
+        url: `/dynamic/getDynamicById/${data}`,
+        method: 'get'
+    });
+};
+
+export const updateDynamicInfo = (data: any) => {
+    return request({
+        url: `/dynamic/updateByUp`,
+        method: 'post',
+        data: data
+    });
+};
+
