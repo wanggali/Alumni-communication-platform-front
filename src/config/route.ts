@@ -53,6 +53,14 @@ const routes:RouteRecordRaw[] = [
         },
         component: () => import ("../view/dynamic.vue")
     },
+    {
+        path: "/push",
+        name: "push",
+        meta: {
+
+        },
+        component: () => import ("../view/push.vue")
+    },
 ]
 
 export default routes;

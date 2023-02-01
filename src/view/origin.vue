@@ -21,6 +21,9 @@
               <el-button color="#d5ebe1" :icon="Search" round
                          @click="getOriginData">搜索
               </el-button>
+              <el-button color="#d5ebe1" :icon="Plus" round
+                         @click="getOriginData">创建组织
+              </el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -87,7 +90,7 @@
 <script lang="ts" setup>
 import {getOriginInfo} from "../api/origin";
 import {ref, reactive, onMounted} from "vue";
-import {Search, House, Monitor} from '@element-plus/icons-vue'
+import {Search, House, Monitor,Plus} from '@element-plus/icons-vue'
 import {ElMessage} from "element-plus";
 import CollegeSelect from "../components/collegeSelect.vue";
 import {addOriginUserInfo, getOriginUserInfo} from "../api/originUser";
