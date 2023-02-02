@@ -35,7 +35,7 @@
                          @click="getOriginData">搜索
               </el-button>
               <el-button color="#d5ebe1" :icon="Plus" round
-                         @click="getOriginData">发布内推
+                         @click="addPush">发布内推
               </el-button>
             </el-form-item>
           </el-form>
@@ -88,16 +88,51 @@
     </div>
 
   </div>
+
+  <el-dialog title="添加内推" v-model="addVisible" width="30%">
+    <el-form label-width="70px">
+      <el-form-item label="公司名称">
+        <el-input v-model="addPushReq.companyName"></el-input>
+      </el-form-item>
+      <el-form-item label="公司职位">
+        <el-input v-model="addPushReq.companyPosition"></el-input>
+      </el-form-item>
+      <el-form-item label="公司地点">
+        <el-input v-model="addPushReq.companyRegion"></el-input>
+      </el-form-item>
+      <el-form-item label="薪资">
+        <el-input v-model="addPushReq.companySalary"></el-input>
+      </el-form-item>
+      <el-form-item label="职位数量">
+        <el-input v-model="addPushReq.positionNum"></el-input>
+      </el-form-item>
+      <el-form-item label="职位描述">
+        <el-input v-model="addPushReq.positionInfo"></el-input>
+      </el-form-item>
+      <el-form-item label="内推链接">
+        <el-input v-model="addPushReq.pushUrl"></el-input>
+      </el-form-item>
+      <el-form-item label="内推人">
+        <el-input v-model="addPushReq.uid"></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+				<span class="dialog-footer">
+					<el-button @click="addVisible = false">取 消</el-button>
+					<el-button type="primary" @click="addPushInfo">确 定</el-button>
+				</span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import {getOriginInfo} from "../api/origin";
+import {doOriginInfo, getOriginInfo} from "../api/origin";
 import {ref, reactive, onMounted} from "vue";
-import {Search, House, Monitor,Plus} from '@element-plus/icons-vue'
+import {Search, House, Monitor, Plus} from '@element-plus/icons-vue'
 import {ElMessage} from "element-plus";
 import CollegeSelect from "../components/collegeSelect.vue";
 import {addOriginUserInfo, getOriginUserInfo} from "../api/originUser";
-import {getPushInfo} from "../api/push";
+import {addDoPushInfo, getPushInfo} from "../api/push";
 
 const options = [
   {
@@ -141,6 +176,38 @@ const handlePageChange = (val: number) => {
   getOriginReq.pageNum = val;
   getOriginData();
 };
+
+const addVisible = ref<boolean>(false)
+const addPushReq = reactive<any>({
+  companyName: null,
+  companyPosition: null,
+  companyRegion: null,
+  positionNum: null,
+  companySalary: null,
+  positionInfo: null,
+  pushUrl: null,
+  uid: null,
+})
+const addPush = () => {
+  addPushReq.companyName=null
+  addPushReq.companyPosition=null
+  addPushReq.companyRegion=null
+  addPushReq.companySalary=null
+  addPushReq.positionInfo=null
+  addPushReq.pushUrl=null
+  addVisible.value = true
+}
+const addPushInfo=async ()=>{
+  const result = await addDoPushInfo(addPushReq)
+  if (result.code == 0) {
+    ElMessage.success('添加内推成功,审批后方查看！')
+    addVisible.value = false
+    await getOriginData()
+  } else {
+    ElMessage.error(result.message)
+    addVisible.value = false
+  }
+}
 </script>
 
 <style>

@@ -22,7 +22,7 @@
                          @click="getOriginData">搜索
               </el-button>
               <el-button color="#d5ebe1" :icon="Plus" round
-                         @click="getOriginData">创建组织
+                         @click="openAddOrigin">创建组织
               </el-button>
             </el-form-item>
           </el-form>
@@ -85,15 +85,74 @@
     </el-drawer>
   </div>
   <el-empty v-show="Object.keys(originData).length === 0" :image-size="200"/>
+
+  <el-dialog title="添加组织" v-model="addVisible" width="30%">
+    <el-form label-width="70px">
+      <el-form-item label="组织名">
+        <el-input v-model="addOrigin.name"></el-input>
+      </el-form-item>
+      <el-form-item label="地区">
+        <college-select @get-college-id="getCollegeId"/>
+      </el-form-item>
+      <el-form-item label="用户id">
+        <el-input v-model="addOrigin.uid"></el-input>
+      </el-form-item>
+      <el-form-item label="上传头像">
+        <el-upload
+            :file-list="fileList"
+            list-type="picture-card"
+            accept="image/jpeg,image/jpg,image/png"
+            :http-request="upload"
+            :on-success="uploadSuccess"
+            :before-upload="checkFile"
+            ref="upload"
+        >
+          <el-icon>
+            <Plus/>
+          </el-icon>
+          <template #file="{ file }">
+            <div>
+              <img class="el-upload-list__item-thumbnail" :src="file.url"/>
+            </div>
+            <span class="el-upload-list__item-actions">
+          <span
+              class="el-upload-list__item-preview"
+              @click="handlePictureCardPreview(file)"
+          >
+            <el-icon><zoom-in/></el-icon>
+          </span>
+          <span
+              v-if="!disabled"
+              class="el-upload-list__item-delete"
+              @click="handleRemove(file)"
+          >
+            <el-icon><Delete/></el-icon>
+          </span>
+        </span>
+          </template>
+        </el-upload>
+        <el-dialog v-model="dialogVisible">
+          <img w-full :src="dialogImageUrl" alt="组织照片"/>
+        </el-dialog>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+				<span class="dialog-footer">
+					<el-button @click="addVisible = false">取 消</el-button>
+					<el-button type="primary" @click="addOriginInfo">确 定</el-button>
+				</span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import {getOriginInfo} from "../api/origin";
+import {doOriginInfo, getOriginInfo} from "../api/origin";
 import {ref, reactive, onMounted} from "vue";
-import {Search, House, Monitor,Plus} from '@element-plus/icons-vue'
-import {ElMessage} from "element-plus";
+import {Search, House, Monitor, Plus} from '@element-plus/icons-vue'
+import {ElMessage, UploadFile, UploadUserFile} from "element-plus";
 import CollegeSelect from "../components/collegeSelect.vue";
 import {addOriginUserInfo, getOriginUserInfo} from "../api/originUser";
+import {uploadOssImg} from "../api/oss";
 
 
 onMounted(() => {
@@ -126,6 +185,7 @@ const handlePageChange = (val: number) => {
 
 const getCollegeId = (id: number) => {
   getOriginReq.collegeId = id
+  addOrigin.cid = id
 }
 
 //加入组织
@@ -161,6 +221,76 @@ const getOriginUser = async (id: number) => {
   const result = await getOriginUserInfo(getOriginUserReq)
   if (result.code == 0) {
     originUserData.value = {...result.data.items}
+  }
+}
+
+
+/**
+ * 新增操作
+ */
+const addVisible = ref<boolean>(false)
+const addOrigin = reactive<any>({})
+const openAddOrigin = () => {
+  addOrigin.name = ''
+  addOrigin.avatar = ''
+  addOrigin.cid = ''
+  addVisible.value = true
+}
+/**
+ * 文件上传
+ */
+const checkFile = (file: any) => {
+  const isFileTypeValid = ['image/jpeg', 'image/png', 'image/gif'].includes(file.type);
+  if (!isFileTypeValid) {
+    ElMessage.error('只支持上传 jpg / png / gif 格式的图片');
+    return false;
+  }
+  const isLt1M = file.size / 1024 / 1024 < 1;
+  if (!isLt1M) {
+    ElMessage.error('图片大小不能超过 1M');
+    return false;
+  }
+  return true;
+}
+const fileList = ref<UploadUserFile[]>([])
+const upload = async (info: any) => {
+  const {file} = info
+  fileList.value.push(file)
+  const formData = new FormData();
+  formData.append('file', file);
+  const result = await uploadOssImg(formData)
+  if (result.code == 0) {
+    addOrigin.avatar = result.data
+  }
+}
+const uploadSuccess = () => {
+  ElMessage.success('文件上传成功！！')
+}
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+const disabled = ref(false)
+
+const handleRemove = (file: UploadFile) => {
+  fileList.value = []
+}
+
+const handlePictureCardPreview = (file: UploadFile) => {
+  dialogImageUrl.value = file.url!
+  dialogVisible.value = true
+}
+
+/**
+ *添加组织
+ */
+const addOriginInfo = async () => {
+  const result = await doOriginInfo(addOrigin)
+  if (result.code == 0) {
+    ElMessage.success('添加组织成功！')
+    addVisible.value = false
+    await getOriginData()
+  } else {
+    ElMessage.error(result.message)
+    addVisible.value = false
   }
 }
 </script>

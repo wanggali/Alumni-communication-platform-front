@@ -61,6 +61,14 @@ const routes:RouteRecordRaw[] = [
         },
         component: () => import ("../view/push.vue")
     },
+    {
+        path: "/login",
+        name: "login",
+        meta: {
+
+        },
+        component: () => import ("../view/login.vue")
+    },
 ]
 
 export default routes;

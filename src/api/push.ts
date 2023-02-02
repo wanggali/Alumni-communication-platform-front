@@ -9,3 +9,11 @@ export const getPushInfo = (data: any) => {
     });
 };
 
+export const addDoPushInfo = (data: any) => {
+    return request({
+        url: '/push/addPush',
+        method: 'post',
+        data: data
+    });
+};
+

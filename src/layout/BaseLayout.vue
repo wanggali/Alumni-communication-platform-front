@@ -1,75 +1,76 @@
 <template>
   <el-container>
     <el-header class="header-acp">
-        <el-menu
-            :default-active="activeIndex"
-            class="el-menu-demo"
-            style="background-color: transparent;backdrop-filter: blur(8px);"
-            mode="horizontal"
-            :ellipsis="false"
-            router
-            @select="handleSelect"
-        >
-          <div class="logo">
-            <img class="logo-img" src="../assets/image/logo.png" @click="doReload"/>
-            <h1 class="logo-text">校友交流平台</h1>
+      <el-menu
+          :default-active="activeIndex"
+          class="el-menu-demo"
+          style="background-color: transparent;backdrop-filter: blur(8px);"
+          mode="horizontal"
+          :ellipsis="false"
+          router
+          @select="handleSelect"
+      >
+        <div class="logo">
+          <img class="logo-img" src="../assets/image/logo.png" @click="doReload"/>
+          <h1 class="logo-text">校友交流平台</h1>
+        </div>
+        <el-menu-item index="/">首页</el-menu-item>
+        <el-menu-item index="/origin">组织</el-menu-item>
+        <el-menu-item index="/posts">文章</el-menu-item>
+        <el-menu-item index="/push">内推</el-menu-item>
+        <el-menu-item index="/userInfo">个人</el-menu-item>
+        <div class="header-search">
+          <el-input class="header-input" v-model="input" placeholder="全站搜索" clearable/>
+          <div class="search-btn">
+            <el-button color="#d5ebe1" :icon="Search" round>搜索</el-button>
           </div>
-          <el-menu-item index="/">首页</el-menu-item>
-          <el-menu-item index="/origin">组织</el-menu-item>
-          <el-menu-item index="/posts">文章</el-menu-item>
-          <el-menu-item index="/push">内推</el-menu-item>
-          <el-menu-item index="/userInfo">个人</el-menu-item>
-          <div class="header-search">
-            <el-input class="header-input" v-model="input" placeholder="全站搜索" clearable/>
-            <div class="search-btn">
-              <el-button color="#d5ebe1" :icon="Search" round>搜索</el-button>
-            </div>
-          </div>
-          <div class="flex-grow"/>
-          <el-sub-menu index="1">
-            <template #title>
-              <img class="avatar" src="../assets/image/logo.png" @click="doReload"/>
-            </template>
-            <el-menu-item index="2-1">
-              <el-icon>
-                <User/>
-              </el-icon>
-              个人中心
-            </el-menu-item>
-            <el-menu-item index="2-2" style="color: red">
-              <el-icon>
-                <SwitchButton/>
-              </el-icon>
-              退出登录
-            </el-menu-item>
-          </el-sub-menu>
-          <el-sub-menu index="2" class="send">
-            <template #title>
-              <el-icon>
-                <Star/>
-              </el-icon>
-              发布
-            </template>
-            <el-menu-item index="2-1">
-              <el-icon>
-                <Apple/>
-              </el-icon>
-              写帖子
-            </el-menu-item>
-            <el-menu-item index="2-2">
-              <el-icon>
-                <KnifeFork/>
-              </el-icon>
-              提问题
-            </el-menu-item>
-            <el-menu-item index="2-3">
-              <el-icon>
-                <Mug/>
-              </el-icon>
-              发动态
-            </el-menu-item>
-          </el-sub-menu>
-        </el-menu>
+        </div>
+        <div class="flex-grow"/>
+        <span style="margin-top: 17px">登录</span>
+        <el-sub-menu index="1" v-show="false">
+          <template #title>
+            <img class="avatar" src="../assets/image/logo.png" @click="doReload"/>
+          </template>
+          <el-menu-item index="2-1">
+            <el-icon>
+              <User/>
+            </el-icon>
+            个人中心
+          </el-menu-item>
+          <el-menu-item index="2-2" style="color: red">
+            <el-icon>
+              <SwitchButton/>
+            </el-icon>
+            退出登录
+          </el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="2" class="send">
+          <template #title>
+            <el-icon>
+              <Star/>
+            </el-icon>
+            发布
+          </template>
+          <el-menu-item index="2-1">
+            <el-icon>
+              <Apple/>
+            </el-icon>
+            写帖子
+          </el-menu-item>
+          <el-menu-item index="2-2">
+            <el-icon>
+              <KnifeFork/>
+            </el-icon>
+            提问题
+          </el-menu-item>
+          <el-menu-item index="2-3">
+            <el-icon>
+              <Mug/>
+            </el-icon>
+            发动态
+          </el-menu-item>
+        </el-sub-menu>
+      </el-menu>
     </el-header>
     <el-main>
       <router-view/>
@@ -114,7 +115,7 @@
         </a>
       </div>
       <div class="footer-text">
-        <span><el-icon><InfoFilled /></el-icon>2023 校友交流后台管理系统</span>
+        <span><el-icon><InfoFilled/></el-icon>2023 校友交流后台管理系统</span>
       </div>
     </el-footer>
   </el-container>
@@ -122,13 +123,19 @@
 </template>
 
 <script lang="ts" setup>
-import {ref,watch,onMounted} from 'vue'
+import {ref, watch, onMounted} from 'vue'
 import {Search} from '@element-plus/icons-vue'
 import {useRoute, useRouter} from "vue-router";
+import {useUserStore} from "../stores/user";
+
+const token = localStorage.getItem('acp_token')
+if (token != null) {
+  const userInfo = useUserStore().currentUser
+}
 const activeIndex = ref('/')
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
-  activeIndex.value=key
+  activeIndex.value = key
 }
 
 const doReload = () => {
@@ -137,8 +144,8 @@ const doReload = () => {
 
 const route = useRoute();
 const router = useRouter();
-watch(route,(newValue,oldValue)=>{
-  activeIndex.value=route.path
+watch(route, (newValue, oldValue) => {
+  activeIndex.value = route.path
 })
 
 </script>
@@ -267,7 +274,7 @@ watch(route,(newValue,oldValue)=>{
   margin-top: 15px;
 }
 
-.header-acp{
+.header-acp {
   position: fixed;
   inset-block-start: 0;
   width: 100%;

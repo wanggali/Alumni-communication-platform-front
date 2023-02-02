@@ -8,3 +8,10 @@ export const getOriginInfo = (data: any) => {
     });
 };
 
+export const doOriginInfo = (data: any) => {
+    return request({
+        url: '/origin/addOrigin',
+        method: 'post',
+        data: data
+    });
+};
