@@ -61,7 +61,7 @@
                   &nbsp;{{ item.down }}
                 </span>
                 <el-divider direction="vertical"/>
-                <span style="cursor: pointer">
+                <span style="cursor: pointer" @click="$router.push(`/post/${item.id}`)">
                   <el-icon><ChatDotRound/></el-icon>
                 </span>
               </div>
@@ -102,7 +102,7 @@
               <div style="margin-top: 12px;">
                 <span style="color: #00000073;">{{ item.createTime }}</span>
                 <el-divider direction="vertical"/>
-                <span style="cursor: pointer">
+                <span style="cursor: pointer" @click="$router.push(`/question/${item.id}`)">
                   <el-icon><ChatDotRound/></el-icon>
                 </span>
               </div>
@@ -192,6 +192,10 @@ import _ from "lodash";
 import {IceCreamRound} from '@element-plus/icons-vue'
 import {addDiscussUpInfo} from "../api/discuss";
 import {addDynamicUpInfo} from "../api/dynamic";
+import {useUserStore} from "../stores/user";
+
+const userStore = useUserStore()
+userStore.getUserInfo()
 
 const text = ref<string>('')
 const loading = ref(true)
@@ -270,6 +274,10 @@ const addDiscussUpReq = reactive<any>({
   down: 0
 })
 const addDiscussUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能点赞哟！')
+    return;
+  }
   addDiscussUpReq.id = item.id
   if (isUp.value) {
     item.up++
@@ -289,6 +297,10 @@ const addDiscussUp = _.throttle(async (item: any) => {
 
 const isDown = ref<boolean>(true)
 const reduceDiscussUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能点赞哟！')
+    return;
+  }
   addDiscussUpReq.id = item.id
   if (isDown.value) {
     item.down++
@@ -312,6 +324,10 @@ const addDynamicUpReq = reactive<any>({
   up: 0
 })
 const addDynamicUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能点赞哟！')
+    return;
+  }
   addDynamicUpReq.id = item.id
   if (isDynamicUp.value) {
     item.up++

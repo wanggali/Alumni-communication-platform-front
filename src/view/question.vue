@@ -82,6 +82,7 @@
                 <span style="color: #00000073;margin-top: 15px">{{ item?.createTime }}</span>
                 <el-divider direction="vertical"/>
                 <el-button color="#d5ebe1" :icon="Check" round
+                           v-show="userStore?.currentUser.userId===discussInfo.uid"
                            @click="updateAnswer(item)">{{ item.isAdopt === 1 ? '取消采纳' : '采纳' }}
                 </el-button>
                 <el-tag type="success" style="margin-left: 850px" v-show="item.isAdopt===1">已采纳</el-tag>
@@ -127,6 +128,10 @@ import {addDiscussComment, doDiscussCommentUp, getDiscussComment} from "../api/c
 import {addDiscussCommentReply, doDiscussCommentReplyUp} from "../api/reply";
 import {getQuestionInfoById} from "../api/question";
 import {addAnswerInfo, getAnswerInfo, updateAnswerInfo} from "../api/answer";
+import {useUserStore} from "../stores/user";
+
+const userStore = useUserStore()
+userStore.getUserInfo()
 
 const {params: {id}} = useRoute()
 onMounted(() => {
@@ -157,6 +162,10 @@ const addCommentReq = reactive<any>({
   answerContent: null
 })
 const addDiscussCommentDo = async () => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能回答哟！')
+    return;
+  }
   if (typeof id === "string") {
     addCommentReq.qid = parseInt(id)
   }

@@ -113,7 +113,7 @@
         <el-input v-model="addPushReq.pushUrl"></el-input>
       </el-form-item>
       <el-form-item label="内推人">
-        <el-input v-model="addPushReq.uid"></el-input>
+        <el-input v-model="userStore.currentUser.userId" disabled></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -133,6 +133,10 @@ import {ElMessage} from "element-plus";
 import CollegeSelect from "../components/collegeSelect.vue";
 import {addOriginUserInfo, getOriginUserInfo} from "../api/originUser";
 import {addDoPushInfo, getPushInfo} from "../api/push";
+import {useUserStore} from "../stores/user";
+
+const userStore = useUserStore()
+userStore.getUserInfo()
 
 const options = [
   {
@@ -189,15 +193,20 @@ const addPushReq = reactive<any>({
   uid: null,
 })
 const addPush = () => {
-  addPushReq.companyName=null
-  addPushReq.companyPosition=null
-  addPushReq.companyRegion=null
-  addPushReq.companySalary=null
-  addPushReq.positionInfo=null
-  addPushReq.pushUrl=null
+  addPushReq.companyName = null
+  addPushReq.companyPosition = null
+  addPushReq.companyRegion = null
+  addPushReq.companySalary = null
+  addPushReq.positionInfo = null
+  addPushReq.pushUrl = null
   addVisible.value = true
 }
-const addPushInfo=async ()=>{
+const addPushInfo = async () => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能进行内推哟！')
+    return;
+  }
+  addPushReq.uid = userStore.currentUser?.userId
   const result = await addDoPushInfo(addPushReq)
   if (result.code == 0) {
     ElMessage.success('添加内推成功,审批后方查看！')

@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrap">
     <div class="ms-login">
-      <div class="ms-title"> 🌎 校友交流平台 🌍 </div>
+      <div class="ms-title"> 🌎 校友交流平台 🌍</div>
       <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
         <el-form-item prop="email">
           <el-input v-model="param.email" clearable placeholder="请输入邮箱">
@@ -29,53 +29,12 @@
         </el-form-item>
         <div class="login-btn">
           <div style="display: flex;">
-            <el-button color="#d5ebe1" :icon="Search" round @click="submitForm(login)">登录</el-button>
-            <el-button color="#d5ebe1" :icon="Search" round @click="">注册</el-button>
+            <el-button color="#d5ebe1" :icon="Coordinate" round @click="submitForm(login)">登录</el-button>
+            <el-button color="#d5ebe1" :icon="Coordinate" round @click="$router.push('/register')">注册</el-button>
           </div>
         </div>
         <p class="login-tips">Tips : 欢迎来到校友交流平台！</p>
       </el-form>
-    </div>
-    <div class="footer">
-      <a title="github" target="_blank" href="https://github.com/wanggali/Alumni-communication-platform">
-        <el-popover
-            placement="top-start"
-            :width="200"
-            trigger="hover"
-            content="查看本站及源码，欢迎star"
-        >
-          <template #reference>
-            <span class="iconfont icon-github-fill">支持项目</span>
-          </template>
-        </el-popover>
-      </a>
-      <a title="contact" target="_blank" href="https://im.qq.com/index">
-        <el-popover
-            placement="top-start"
-            :width="200"
-            trigger="hover"
-            content="QQ号：2722933638"
-        >
-          <template #reference>
-            <span class="iconfont icon-QQ">联系作者</span>
-          </template>
-        </el-popover>
-      </a>
-      <a title="info" target="_blank">
-        <el-popover
-            placement="top-start"
-            :width="200"
-            trigger="hover"
-            content="本站所有资源均来源于网络，仅供学习参考，如有侵权，非常抱歉，请立即联系作者删除"
-        >
-          <template #reference>
-            <span class="iconfont icon-toubaoshengming">免责声明</span>
-          </template>
-        </el-popover>
-      </a>
-    </div>
-    <div class="footer-text">
-      <span class="iconfont icon-iconfonticon-shouye">2022 校友交流平台</span>
     </div>
   </div>
 </template>
@@ -86,6 +45,7 @@ import {useRouter} from 'vue-router';
 import type {FormInstance, FormRules} from 'element-plus';
 import {ElMessage,} from 'element-plus';
 import {userLogin} from "../api/user";
+import {Coordinate} from '@element-plus/icons-vue'
 
 interface LoginInfo {
   email: string;
@@ -114,9 +74,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       if (result.code == 0) {
         ElMessage.success('登录成功');
         localStorage.setItem('acp_token', result.data);
-        setTimeout(() => {
-          router.push('/')
-        }, 2000)
+        await router.push('/')
+        setTimeout(()=>{
+          location.reload()
+        },10)
       } else {
         ElMessage.error('邮箱/密码输入错误');
         return false;
@@ -131,9 +92,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 <style scoped>
 .login-wrap {
-  position: relative;
+  margin-top: 45px;
   width: 100%;
-  height: 100%;
+  height: 570px;
   background-color: #74EBD5;
   background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
   background-size: 100%;
@@ -180,25 +141,4 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   color: #fff;
 }
 
-.footer {
-  text-align: center;
-  position: relative;
-  top: 650px;
-}
-
-.footer > a {
-  text-decoration: none;
-  background-color: transparent;
-  outline: none;
-  cursor: pointer;
-  padding: 20px;
-  color: black;
-}
-
-.footer-text {
-  text-align: center;
-  position: relative;
-  top: 665px;
-  color: black;
-}
 </style>

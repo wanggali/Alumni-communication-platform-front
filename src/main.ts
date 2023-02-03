@@ -28,6 +28,14 @@ const router = VueRouter.createRouter({
         return {top: 0}
     },
 })
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem('acp_token');
+    if (!token && to.path === '/userInfo') {
+        next('/login');
+    } else {
+        next();
+    }
+});
 //创建持久化存储库，类似于以前的vuex
 const pinia = createPinia()
 VueMarkdownEditor.use(vuepressTheme, {

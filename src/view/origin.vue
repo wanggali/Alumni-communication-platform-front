@@ -95,7 +95,7 @@
         <college-select @get-college-id="getCollegeId"/>
       </el-form-item>
       <el-form-item label="用户id">
-        <el-input v-model="addOrigin.uid"></el-input>
+        <el-input v-model="userStore.currentUser.userId" disabled></el-input>
       </el-form-item>
       <el-form-item label="上传头像">
         <el-upload
@@ -153,7 +153,10 @@ import {ElMessage, UploadFile, UploadUserFile} from "element-plus";
 import CollegeSelect from "../components/collegeSelect.vue";
 import {addOriginUserInfo, getOriginUserInfo} from "../api/originUser";
 import {uploadOssImg} from "../api/oss";
+import {useUserStore} from "../stores/user";
 
+const userStore = useUserStore()
+userStore.getUserInfo()
 
 onMounted(() => {
   getOriginData()
@@ -190,10 +193,14 @@ const getCollegeId = (id: number) => {
 
 //加入组织
 const addOriginReq = reactive<any>({
-  uid: null,
+  uid: userStore.currentUser?.userId,
   oid: null
 })
 const addOriginUser = async (origin: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能加入组织哟！')
+    return;
+  }
   addOriginReq.oid = origin.id
   const result = await addOriginUserInfo(addOriginReq)
   if (result.code == 0) {
@@ -283,6 +290,11 @@ const handlePictureCardPreview = (file: UploadFile) => {
  *添加组织
  */
 const addOriginInfo = async () => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能添加组织哟！')
+    return;
+  }
+  addOrigin.uid = userStore.currentUser?.userId
   const result = await doOriginInfo(addOrigin)
   if (result.code == 0) {
     ElMessage.success('添加组织成功！')

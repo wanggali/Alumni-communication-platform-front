@@ -70,3 +70,10 @@ export const registerUser = (data: any) => {
         data: data
     });
 };
+
+export const getEmailCode = (data: any) => {
+    return request({
+        url: `/user/getEmailCode?email=${data}`,
+        method: 'get',
+    });
+};

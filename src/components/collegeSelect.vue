@@ -1,7 +1,7 @@
 <template>
   <el-select v-model="value"
              clearable
-             :placeholder="collegeName"
+             :placeholder="collegeName==null?'请选择所属学院':collegeName"
              @change="handleChange"
              style="width: 500px">
     <el-option

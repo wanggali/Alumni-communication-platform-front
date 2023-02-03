@@ -1,7 +1,5 @@
 <template>
-  <BaseLayout v-if="path!=='/login'"/>
-  <login v-if="path==='/login'"/>
-  <register v-else/>
+  <BaseLayout/>
 </template>
 
 <script lang="ts" setup>
@@ -11,12 +9,6 @@ import {useRoute, useRouter} from "vue-router";
 import {ref, watch} from "vue";
 import Register from "./view/register.vue";
 
-const route = useRoute();
-const router = useRouter();
-const path=ref<string>()
-watch(route,(newValue,oldValue)=>{
-  path.value=route.path
-})
 </script>
 
 <style>

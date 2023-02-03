@@ -20,24 +20,26 @@
         <el-menu-item index="/push">内推</el-menu-item>
         <el-menu-item index="/userInfo">个人</el-menu-item>
         <div class="header-search">
-          <el-input class="header-input" v-model="input" placeholder="全站搜索" clearable/>
+          <el-input class="header-input" v-model="keyWord" placeholder="全站搜索" clearable/>
           <div class="search-btn">
-            <el-button color="#d5ebe1" :icon="Search" round>搜索</el-button>
+            <el-button color="#d5ebe1" :icon="Search" round @click="searchPosts">搜索</el-button>
           </div>
         </div>
         <div class="flex-grow"/>
-        <span style="margin-top: 17px">登录</span>
-        <el-sub-menu index="1" v-show="false">
+        <el-menu-item index="/login" v-show="userStore.currentUser.userAvatar==null">登录</el-menu-item>
+        <el-menu-item index="/register" v-show="userStore.currentUser.userAvatar==null">注册</el-menu-item>
+        <el-sub-menu index="1" v-show="userStore.currentUser.userAvatar!=null">
           <template #title>
-            <img class="avatar" src="../assets/image/logo.png" @click="doReload"/>
+            <img class="avatar" :src=userStore.currentUser.userAvatar
+                 @click="doReload"/>{{ userStore.currentUser.userName }}
           </template>
-          <el-menu-item index="2-1">
+          <el-menu-item index="/userInfo">
             <el-icon>
               <User/>
             </el-icon>
             个人中心
           </el-menu-item>
-          <el-menu-item index="2-2" style="color: red">
+          <el-menu-item index="/" style="color: red" @click="logout">
             <el-icon>
               <SwitchButton/>
             </el-icon>
@@ -51,19 +53,19 @@
             </el-icon>
             发布
           </template>
-          <el-menu-item index="2-1">
+          <el-menu-item index="/addDiscuss">
             <el-icon>
               <Apple/>
             </el-icon>
             写帖子
           </el-menu-item>
-          <el-menu-item index="2-2">
+          <el-menu-item index="/addQuestion">
             <el-icon>
               <KnifeFork/>
             </el-icon>
             提问题
           </el-menu-item>
-          <el-menu-item index="2-3">
+          <el-menu-item index="/addDynamic">
             <el-icon>
               <Mug/>
             </el-icon>
@@ -128,10 +130,8 @@ import {Search} from '@element-plus/icons-vue'
 import {useRoute, useRouter} from "vue-router";
 import {useUserStore} from "../stores/user";
 
-const token = localStorage.getItem('acp_token')
-if (token != null) {
-  const userInfo = useUserStore().currentUser
-}
+const userStore = useUserStore()
+userStore.getUserInfo()
 const activeIndex = ref('/')
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -148,6 +148,14 @@ watch(route, (newValue, oldValue) => {
   activeIndex.value = route.path
 })
 
+const logout = () => {
+  localStorage.removeItem('acp_token')
+  location.reload()
+}
+const keyWord = ref<string>('')
+const searchPosts = () => {
+  router.push({path:'/posts',query:keyWord,params:keyWord})
+}
 </script>
 
 <style scoped>

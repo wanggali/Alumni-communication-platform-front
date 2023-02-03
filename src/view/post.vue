@@ -173,6 +173,10 @@ import {Edit} from '@element-plus/icons-vue'
 import Content from "../components/content.vue";
 import {addDiscussComment, doDiscussCommentUp, getDiscussComment} from "../api/comment";
 import {addDiscussCommentReply, doDiscussCommentReplyUp} from "../api/reply";
+import {useUserStore} from "../stores/user";
+
+const userStore = useUserStore()
+userStore.getUserInfo()
 
 const {params: {id}} = useRoute()
 onMounted(() => {
@@ -198,6 +202,10 @@ const addDiscussUpReq = reactive<any>({
   down: 0
 })
 const addDiscussUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能加入点赞哟！')
+    return;
+  }
   addDiscussUpReq.id = item.id
   if (isUp.value) {
     item.up++
@@ -217,6 +225,10 @@ const addDiscussUp = _.throttle(async (item: any) => {
 
 const isDown = ref<boolean>(true)
 const reduceDiscussUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能加入点赞哟！')
+    return;
+  }
   addDiscussUpReq.id = item.id
   if (isDown.value) {
     item.down++
@@ -246,6 +258,10 @@ const addCommentReq = reactive<any>({
   content: null
 })
 const addDiscussCommentDo = async () => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能发布评论哟！')
+    return;
+  }
   if (typeof id === "string") {
     addCommentReq.did = parseInt(id)
   }
@@ -334,6 +350,10 @@ const addReplyReq = reactive<any>({
   replyContent: null
 })
 const doReply = async (item: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能加入回复哟！')
+    return;
+  }
   addReplyReq.cid = item.id
   addReplyReq.uid = item.uid
   addReplyReq.replyContent = replyContent

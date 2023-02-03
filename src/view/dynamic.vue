@@ -76,6 +76,10 @@ import {addDiscussCommentReply, doDiscussCommentReplyUp} from "../api/reply";
 import {getQuestionInfoById} from "../api/question";
 import {addAnswerInfo, getAnswerInfo, updateAnswerInfo} from "../api/answer";
 import {getDynamicInfoById, updateDynamicInfo} from "../api/dynamic";
+import {useUserStore} from "../stores/user";
+
+const userStore = useUserStore()
+userStore.getUserInfo()
 
 const {params: {id}} = useRoute()
 onMounted(() => {
@@ -101,6 +105,10 @@ const addDiscussUpReq = reactive<any>({
   up: 0
 })
 const addDiscussUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId==null){
+    ElMessage.warning('登录后才能进行点赞哟！')
+    return;
+  }
   addDiscussUpReq.id = item.id
   addDiscussUpReq.uid = item.uid
   addDiscussUpReq.tid = item.tid
