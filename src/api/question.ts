@@ -15,3 +15,12 @@ export const getQuestionInfoById = (data: any) => {
     });
 };
 
+export const addQuestionInfo = (data: any) => {
+    return request({
+        url: '/question/addQuestion',
+        method: 'post',
+        data: data
+    });
+};
+
+

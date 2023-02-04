@@ -171,7 +171,8 @@
           <el-card class="box-card">
             <div style="font-size: 16px"> 🎅🏽 关于本站</div>
             <br/>
-            <div style="color:#00000073">一个充满着青春气息，活力满满的校友交流平台</div>
+            <div style="color:#00000073">一个充满着青春气息，活力满满的校友交流平台</div><br>
+            <div style="color:#00000073">建设反馈：https://support.qq.com/product/498632</div>
           </el-card>
         </div>
       </div>

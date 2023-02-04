@@ -31,3 +31,11 @@ export const updateDynamicInfo = (data: any) => {
     });
 };
 
+export const addDynamicInfo = (data: any) => {
+    return request({
+        url: '/dynamic/addDynamic',
+        method: 'post',
+        data: data
+    });
+};
+

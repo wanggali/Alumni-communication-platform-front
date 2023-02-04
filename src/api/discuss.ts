@@ -23,3 +23,13 @@ export const getDiscussInfoById = (data: any) => {
     });
 };
 
+export const addDiscussInfo = (data: any) => {
+    return request({
+        url: '/discuss/addDiscuss',
+        method: 'post',
+        data: data
+    });
+};
+
+
+

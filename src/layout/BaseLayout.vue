@@ -79,7 +79,7 @@
     </el-main>
     <el-footer>
       <div class="footer">
-        <a title="github" target="_blank" href="https://github.com/wanggali/Alumni-communication-platform">
+        <a title="github" target="_blank" href="https://github.com/wanggali">
           <el-popover
               placement="top-start"
               :width="200"
@@ -112,6 +112,18 @@
           >
             <template #reference>
               <span class="iconfont icon-toubaoshengming">免责声明</span>
+            </template>
+          </el-popover>
+        </a>
+        <a title="info" target="_blank" href="https://support.qq.com/product/498632">
+          <el-popover
+              placement="top-start"
+              :width="200"
+              trigger="hover"
+              content="如发现bug，作者大大的感谢您！"
+          >
+            <template #reference>
+              <span><el-icon><Platform /></el-icon>建设反馈</span>
             </template>
           </el-popover>
         </a>

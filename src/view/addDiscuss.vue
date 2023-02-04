@@ -6,7 +6,7 @@
       <el-step title="发布帖子" :icon="UploadFilled"/>
     </el-steps>
 
-    <Content @show-message="showMessage"/>
+    <Content @show-message="showMessage" style="height: 500px"/>
 
     <div class="discuss-info">
       <el-form
@@ -16,7 +16,7 @@
           class="el-form"
       >
         <el-form-item label="用户id" placeholder="用户id">
-          <el-input v-model="addDiscuss.uid"/>
+          <el-input v-model="userStore.currentUser.userId" disabled/>
         </el-form-item>
         <el-form-item label="标签名">
           <tag @get-tag-id="getTagId"/>
@@ -42,13 +42,19 @@ import {onMounted, ref, watch, reactive} from "vue";
 import {useRouter} from "vue-router";
 import Content from "../components/content.vue";
 import {ElMessage, UploadUserFile} from "element-plus";
-import {addDiscussUpInfo} from "../api/discuss";
+import {addDiscussUpInfo, addDiscussInfo} from "../api/discuss";
+import Tag from "../components/tag.vue";
+import UploadAliyun from "../components/uploadAliyun.vue";
+import {useUserStore} from "../stores/user";
+
+const userStore = useUserStore()
+userStore.getUserInfo()
 
 const router = useRouter()
 const active = ref<number>(1)
 const message = ref<string>('')
 
-const showMessage = (text:string) => {
+const showMessage = (text: string) => {
   addDiscuss.message = text
 }
 
@@ -60,12 +66,12 @@ watch(message, (val) => {
   }
 })
 
-const addDiscuss = reactive<Discuss>({})
-const getTagId = (id:bigint) => {
+const addDiscuss = reactive<any>({})
+const getTagId = (id: bigint) => {
   addDiscuss.tid = id
 }
 const fileList = ref<UploadUserFile[]>([])
-const getALiYunUrl = (url:string) => {
+const getALiYunUrl = (url: string) => {
   addDiscuss.cover = url
   active.value = 3
 }
@@ -74,18 +80,21 @@ const getALiYunUrl = (url:string) => {
  * 发布帖子
  */
 const saveEdit = async () => {
-  if (addDiscuss.title == '' &&
-      addDiscuss.cover == '' &&
-      addDiscuss.message == '' &&
-      addDiscuss.uid < 0 &&
+  addDiscuss.uid = userStore.currentUser?.userId
+  if (addDiscuss.uid == null) {
+    ElMessage.warning('登录后才能发布帖子')
+  }
+  if (addDiscuss.title == null ||
+      addDiscuss.cover == null ||
+      addDiscuss.message == null ||
       addDiscuss.tid < 0) {
     ElMessage.warning("帖子有信息错误")
     return
   }
   const result = await addDiscussInfo(addDiscuss);
   if (result.code == 0) {
-    ElMessage.success("发布帖子成功")
-    location.reload()
+    ElMessage.success("发布帖子成功，待管理员审核后查看")
+    await router.push('/posts')
   } else {
     ElMessage.error(result.message)
   }
@@ -94,6 +103,8 @@ const saveEdit = async () => {
 
 <style scoped>
 .discuss-info {
+  display: flex;
+  justify-content: center;
   margin-top: 30px;
   background: white;
   border-radius: 4px;

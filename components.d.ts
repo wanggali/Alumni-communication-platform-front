@@ -57,6 +57,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Tag: typeof import('./src/components/tag.vue')['default']
     TagSelect: typeof import('./src/components/tagSelect.vue')['default']
+    UploadAliyun: typeof import('./src/components/uploadAliyun.vue')['default']
   }
   export interface ComponentCustomProperties {
     vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
