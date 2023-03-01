@@ -15,9 +15,6 @@
           style="max-width: 460px"
           class="el-form"
       >
-        <el-form-item label="用户id" placeholder="用户id">
-          <el-input v-model="userStore.currentUser.userId" disabled/>
-        </el-form-item>
         <el-form-item label="标签名">
           <tag @get-tag-id="getTagId"/>
         </el-form-item>
@@ -83,6 +80,7 @@ const saveEdit = async () => {
   addDiscuss.uid = userStore.currentUser?.userId
   if (addDiscuss.uid == null) {
     ElMessage.warning('登录后才能发布帖子')
+    return
   }
   if (addDiscuss.title == null ||
       addDiscuss.cover == null ||

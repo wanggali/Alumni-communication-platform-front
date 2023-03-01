@@ -15,14 +15,11 @@
           style="max-width: 460px"
           class="el-form"
       >
-        <el-form-item label="用户id" placeholder="用户id">
-          <el-input v-model="userStore.currentUser.userId" disabled/>
+        <el-form-item label="标题名" placeholder="标题名">
+          <el-input v-model="addDiscuss.title"/>
         </el-form-item>
         <el-form-item label="标签名">
           <tag @get-tag-id="getTagId"/>
-        </el-form-item>
-        <el-form-item label="标题名" placeholder="标题名">
-          <el-input v-model="addDiscuss.title"/>
         </el-form-item>
         <el-form-item>
 				<span>
