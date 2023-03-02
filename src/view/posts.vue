@@ -228,11 +228,12 @@ const getPostsReq = reactive<any>({
   tid: null,
   title: null,
   content: null,
-  sortType: null
+  sortType: null,
 })
 const discussPageTotal = ref(0);
 const discussData = ref<any>({})
 const getDiscussData = async () => {
+  getPostsReq.isAuditType = 1
   const result = await getDiscussInfo(getPostsReq)
   if (result.code == 0) {
     discussData.value = {...result.data.items}
@@ -245,6 +246,7 @@ const getDiscussData = async () => {
 const questionPageTotal = ref(0);
 const questionData = ref<any>({})
 const getQuestionData = async () => {
+  getPostsReq.isAudit = 1
   const result = await getQuestionInfo(getPostsReq)
   if (result.code == 0) {
     questionData.value = {...result.data.items}

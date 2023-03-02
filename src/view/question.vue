@@ -67,7 +67,7 @@
             </el-button>
             <div class="comment-info" v-for="(item,index) in commentInfo?.items" :key="index">
               <div class="card-header">
-                <img :src="item.userInfo?.userAvatar">
+                <img :src="item.answerUserInfo?.userAvatar">
                 <el-tooltip placement="bottom-start" effect="light">
                   <template #content>
                     <span style="font-size: 14px;">学院：{{ item.answerUserInfo?.collegeName }}</span><br/>
@@ -158,11 +158,11 @@ const showMessage = (text: string) => {
 const addCommentReq = reactive<any>({
   uid: null,
   qid: null,
-  answerId: 7,
+  answerId: null,
   answerContent: null
 })
 const addDiscussCommentDo = async () => {
-  if (userStore.currentUser.userId==null){
+  if (userStore.currentUser.userId == null) {
     ElMessage.warning('登录后才能回答哟！')
     return;
   }
@@ -171,6 +171,7 @@ const addDiscussCommentDo = async () => {
   }
   addCommentReq.answerContent = comment.value
   addCommentReq.uid = discussInfo.value.uid
+  addCommentReq.answerId = userStore.currentUser.userId
   const result = await addAnswerInfo(addCommentReq)
   if (result.code == 0) {
     ElMessage.success('回答成功')
