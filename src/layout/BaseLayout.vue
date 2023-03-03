@@ -129,7 +129,7 @@
         </a>
       </div>
       <div class="footer-text">
-        <span><el-icon><InfoFilled/></el-icon>2023 校友交流后台管理系统</span>
+        <span><el-icon><InfoFilled/></el-icon>2023 校友交流平台</span>
       </div>
     </el-footer>
   </el-container>
