@@ -155,7 +155,7 @@
             <span style="color: rgba(0,0,0,.85);font-weight: 500;font-size: 16px;">帖子信息</span>
           </template>
           <span>标签：</span>
-          <el-tag type="success">{{discussInfo?.tagName}}</el-tag>
+          <el-tag type="success">{{ discussInfo?.tagName }}</el-tag>
         </el-card>
 
       </el-col>
@@ -198,21 +198,20 @@ const getDiscussInfo = async (id: number) => {
 const isUp = ref<boolean>(true)
 const addDiscussUpReq = reactive<any>({
   id: null,
-  up: 0,
-  down: 0
+  uid: null,
+  flag: 'up'
 })
 const addDiscussUp = _.throttle(async (item: any) => {
-  if (userStore.currentUser.userId==null){
+  if (userStore.currentUser.userId == null) {
     ElMessage.warning('登录后才能加入点赞哟！')
     return;
   }
   addDiscussUpReq.id = item.id
+  addDiscussUpReq.uid = userStore.currentUser.userId
   if (isUp.value) {
     item.up++
-    addDiscussUpReq.up = 1
   } else {
     item.up--
-    addDiscussUpReq.up = -1
   }
   isUp.value = !isUp.value
   const result = await addDiscussUpInfo(addDiscussUpReq)
@@ -224,21 +223,25 @@ const addDiscussUp = _.throttle(async (item: any) => {
 }, 1000)
 
 const isDown = ref<boolean>(true)
+const reduceDiscussUpReq = reactive<any>({
+  id: null,
+  uid: null,
+  flag: 'up'
+})
 const reduceDiscussUp = _.throttle(async (item: any) => {
-  if (userStore.currentUser.userId==null){
+  if (userStore.currentUser.userId == null) {
     ElMessage.warning('登录后才能加入点赞哟！')
     return;
   }
-  addDiscussUpReq.id = item.id
+  reduceDiscussUpReq.id = item.id
+  reduceDiscussUpReq.uid = userStore.currentUser.userId
   if (isDown.value) {
     item.down++
-    addDiscussUpReq.down = 1
   } else {
     item.down--
-    addDiscussUpReq.down = -1
   }
   isDown.value = !isDown.value
-  const result = await addDiscussUpInfo(addDiscussUpReq)
+  const result = await addDiscussUpInfo(reduceDiscussUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
   } else {
@@ -258,7 +261,7 @@ const addCommentReq = reactive<any>({
   content: null
 })
 const addDiscussCommentDo = async () => {
-  if (userStore.currentUser.userId==null){
+  if (userStore.currentUser.userId == null) {
     ElMessage.warning('登录后才能发布评论哟！')
     return;
   }
@@ -301,13 +304,16 @@ const DoDiscussComment = async (id: number) => {
 const isCommentUp = ref<boolean>(true)
 const addCommentUpReq = reactive<any>({})
 const doCommentUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId == null) {
+    ElMessage.warning('登录后才能发布点赞哟！')
+    return;
+  }
   addCommentUpReq.id = item.id
-  if (isUp.value) {
+  addCommentUpReq.uid = item.id
+  if (isCommentUp.value) {
     item.up++
-    addCommentUpReq.up = 1
   } else {
     item.up--
-    addCommentUpReq.up = -1
   }
   isCommentUp.value = !isCommentUp.value
   const result = await doDiscussCommentUp(addCommentUpReq)
@@ -321,13 +327,16 @@ const doCommentUp = _.throttle(async (item: any) => {
 const isReplyUp = ref<boolean>(true)
 const addReplyUpReq = reactive<any>({})
 const doReplyUp = _.throttle(async (item: any) => {
+  if (userStore.currentUser.userId == null) {
+    ElMessage.warning('登录后才能发布点赞哟！')
+    return;
+  }
   addReplyUpReq.id = item.id
+  addReplyUpReq.uid = userStore.currentUser.userId
   if (isUp.value) {
     item.up++
-    addReplyUpReq.up = 1
   } else {
     item.up--
-    addReplyUpReq.up = -1
   }
   isReplyUp.value = !isReplyUp.value
   const result = await doDiscussCommentReplyUp(addReplyUpReq)
@@ -350,7 +359,7 @@ const addReplyReq = reactive<any>({
   replyContent: null
 })
 const doReply = async (item: any) => {
-  if (userStore.currentUser.userId==null){
+  if (userStore.currentUser.userId == null) {
     ElMessage.warning('登录后才能加入回复哟！')
     return;
   }

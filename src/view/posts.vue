@@ -288,8 +288,8 @@ const getDynamicData = async () => {
 const isUp = ref<boolean>(true)
 const addDiscussUpReq = reactive<any>({
   id: null,
-  up: 0,
-  down: 0
+  uid: null,
+  flag: 'up'
 })
 const addDiscussUp = _.throttle(async (item: any) => {
   if (userStore.currentUser.userId == null) {
@@ -297,12 +297,11 @@ const addDiscussUp = _.throttle(async (item: any) => {
     return;
   }
   addDiscussUpReq.id = item.id
+  addDiscussUpReq.uid = userStore.currentUser.userId
   if (isUp.value) {
     item.up++
-    addDiscussUpReq.up = 1
   } else {
     item.up--
-    addDiscussUpReq.up = -1
   }
   isUp.value = !isUp.value
   const result = await addDiscussUpInfo(addDiscussUpReq)
@@ -314,21 +313,25 @@ const addDiscussUp = _.throttle(async (item: any) => {
 }, 1000)
 
 const isDown = ref<boolean>(true)
+const reduceDiscussUpReq = reactive<any>({
+  id: null,
+  uid: null,
+  flag: 'down'
+})
 const reduceDiscussUp = _.throttle(async (item: any) => {
   if (userStore.currentUser.userId == null) {
     ElMessage.warning('登录后才能点赞哟！')
     return;
   }
-  addDiscussUpReq.id = item.id
+  reduceDiscussUpReq.id = item.id
+  reduceDiscussUpReq.uid = userStore.currentUser.userId
   if (isDown.value) {
     item.down++
-    addDiscussUpReq.down = 1
   } else {
     item.down--
-    addDiscussUpReq.down = -1
   }
   isDown.value = !isDown.value
-  const result = await addDiscussUpInfo(addDiscussUpReq)
+  const result = await addDiscussUpInfo(reduceDiscussUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
   } else {
@@ -339,7 +342,7 @@ const reduceDiscussUp = _.throttle(async (item: any) => {
 const isDynamicUp = ref<boolean>(true)
 const addDynamicUpReq = reactive<any>({
   id: null,
-  up: 0
+  uid: null
 })
 const addDynamicUp = _.throttle(async (item: any) => {
   if (userStore.currentUser.userId == null) {
@@ -347,12 +350,11 @@ const addDynamicUp = _.throttle(async (item: any) => {
     return;
   }
   addDynamicUpReq.id = item.id
+  addDynamicUpReq.uid = userStore.currentUser.userId
   if (isDynamicUp.value) {
     item.up++
-    addDynamicUpReq.up = 1
   } else {
     item.up--
-    addDynamicUpReq.up = -1
   }
   isDynamicUp.value = !isDynamicUp.value
   const result = await addDynamicUpInfo(addDynamicUpReq)

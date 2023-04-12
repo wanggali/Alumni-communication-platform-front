@@ -100,12 +100,11 @@ const getDiscussInfo = async (id: number) => {
 const isUp = ref<boolean>(true)
 const addDiscussUpReq = reactive<any>({
   id: null,
-  uid:null,
-  tid:id,
-  up: 0
+  uid: null,
+  tid: null,
 })
 const addDiscussUp = _.throttle(async (item: any) => {
-  if (userStore.currentUser.userId==null){
+  if (userStore.currentUser.userId == null) {
     ElMessage.warning('登录后才能进行点赞哟！')
     return;
   }
@@ -114,10 +113,8 @@ const addDiscussUp = _.throttle(async (item: any) => {
   addDiscussUpReq.tid = item.tid
   if (isUp.value) {
     item.up++
-    addDiscussUpReq.up = 1
   } else {
     item.up--
-    addDiscussUpReq.up = -1
   }
   isUp.value = !isUp.value
   const result = await updateDynamicInfo(addDiscussUpReq)
