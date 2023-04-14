@@ -38,7 +38,7 @@
                   <span style="color: #00000073;">{{ discussInfo.createTime }}</span>
                   <el-divider direction="vertical"/>
                   <span style="cursor: pointer" @click="addDiscussUp(discussInfo)">
-                  <i class="iconfont icon-dianzan" v-if="isUp"></i>
+                  <i class="iconfont icon-dianzan" v-if="!discussInfo.isUp"></i>
                   <i class="iconfont icon-dianzan1" v-else></i>
                   &nbsp;{{ discussInfo.up }}
                 </span>
@@ -97,7 +97,6 @@ const getDiscussInfo = async (id: number) => {
   }
 }
 
-const isUp = ref<boolean>(true)
 const addDiscussUpReq = reactive<any>({
   id: null,
   uid: null,
@@ -111,12 +110,12 @@ const addDiscussUp = _.throttle(async (item: any) => {
   addDiscussUpReq.id = item.id
   addDiscussUpReq.uid = item.uid
   addDiscussUpReq.tid = item.tid
-  if (isUp.value) {
+  if (!item.isUp) {
     item.up++
   } else {
     item.up--
   }
-  isUp.value = !isUp.value
+  item.isUp = !item.isUp
   const result = await updateDynamicInfo(addDiscussUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')

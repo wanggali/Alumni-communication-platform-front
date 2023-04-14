@@ -50,13 +50,13 @@
                 <span style="color: #00000073;">{{ item.createTime }}</span>
                 <el-divider direction="vertical"/>
                 <span style="cursor: pointer" @click="addDiscussUp(item)">
-                  <i class="iconfont icon-dianzan" v-if="isUp"></i>
+                  <i class="iconfont icon-dianzan" v-if="!item.isUp"></i>
                   <i class="iconfont icon-dianzan1" v-else></i>
                   &nbsp;{{ item.up }}
                 </span>
                 <el-divider direction="vertical"/>
                 <span style="cursor: pointer" @click="reduceDiscussUp(item)">
-                  <i class="iconfont icon-cai" v-if="isDown"></i>
+                  <i class="iconfont icon-cai" v-if="!item.isDown"></i>
                   <i class="iconfont icon-cai1" v-else></i>
                   &nbsp;{{ item.down }}
                 </span>
@@ -143,7 +143,7 @@
                 <span style="color: #00000073;">{{ item.createTime }}</span>
                 <el-divider direction="vertical"/>
                 <span style="cursor: pointer" @click="addDynamicUp(item)">
-                  <i class="iconfont icon-dianzan" v-if="isDynamicUp"></i>
+                  <i class="iconfont icon-dianzan" v-if="!item.isUp"></i>
                   <i class="iconfont icon-dianzan1" v-else></i>
                   &nbsp;{{ item.up }}
                 </span>
@@ -269,7 +269,6 @@ const getHomeMsgInfo = async () => {
   }
 }
 
-const isUp = ref<boolean>(true)
 const addDiscussUpReq = reactive<any>({
   id: null,
   uid: null,
@@ -282,12 +281,12 @@ const addDiscussUp = _.throttle(async (item: any) => {
   }
   addDiscussUpReq.id = item.id
   addDiscussUpReq.uid = userStore.currentUser.userId
-  if (isUp.value) {
+  if (!item.isUp) {
     item.up++
   } else {
     item.up--
   }
-  isUp.value = !isUp.value
+  item.isUp = !item.isUp
   const result = await addDiscussUpInfo(addDiscussUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
@@ -296,7 +295,6 @@ const addDiscussUp = _.throttle(async (item: any) => {
   }
 }, 1000)
 
-const isDown = ref<boolean>(true)
 const reduceDiscussUpReq = reactive<any>({
   id: null,
   uid: null,
@@ -309,14 +307,12 @@ const reduceDiscussUp = _.throttle(async (item: any) => {
   }
   reduceDiscussUpReq.id = item.id
   reduceDiscussUpReq.uid = userStore.currentUser.userId
-  if (isDown.value) {
+  if (!item.isDown) {
     item.down++
-    addDiscussUpReq.down = 1
   } else {
     item.down--
-    addDiscussUpReq.down = -1
   }
-  isDown.value = !isDown.value
+  item.isDown = !item.isDown
   const result = await addDiscussUpInfo(reduceDiscussUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
@@ -325,7 +321,6 @@ const reduceDiscussUp = _.throttle(async (item: any) => {
   }
 }, 1000)
 
-const isDynamicUp = ref<boolean>(true)
 const addDynamicUpReq = reactive<any>({
   id: null,
   uid: null
@@ -337,12 +332,12 @@ const addDynamicUp = _.throttle(async (item: any) => {
   }
   addDynamicUpReq.id = item.id
   addDynamicUpReq.uid = userStore.currentUser.userId
-  if (isDynamicUp.value) {
+  if (!item.isUp) {
     item.up++
   } else {
     item.up--
   }
-  isDynamicUp.value = !isDynamicUp.value
+  item.isUp = !item.isUp
   const result = await addDynamicUpInfo(addDynamicUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')

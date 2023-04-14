@@ -38,13 +38,13 @@
                   <span style="color: #00000073;">{{ discussInfo.createTime }}</span>
                   <el-divider direction="vertical"/>
                   <span style="cursor: pointer" @click="addDiscussUp(discussInfo)">
-                  <i class="iconfont icon-dianzan" v-if="isUp"></i>
+                  <i class="iconfont icon-dianzan" v-if="!discussInfo.isUp"></i>
                   <i class="iconfont icon-dianzan1" v-else></i>
                   &nbsp;{{ discussInfo.up }}
                 </span>
                   <el-divider direction="vertical"/>
                   <span style="cursor: pointer" @click="reduceDiscussUp(discussInfo)">
-                  <i class="iconfont icon-cai" v-if="isDown"></i>
+                  <i class="iconfont icon-cai" v-if="!discussInfo.isDown"></i>
                   <i class="iconfont icon-cai1" v-else></i>
                   &nbsp;{{ discussInfo.down }}
                 </span>
@@ -93,7 +93,7 @@
                 <span style="color: #00000073;margin-top: 15px">{{ item?.createTime }}</span>
                 <el-divider direction="vertical"/>
                 <span style="cursor: pointer" @click="doCommentUp(item)">
-                  <i class="iconfont icon-dianzan" v-if="isCommentUp"></i>
+                  <i class="iconfont icon-dianzan" v-if="!item.isUp"></i>
                 <i class="iconfont icon-dianzan1" v-else></i>
                 &nbsp;{{ item?.up }}
                 </span>
@@ -127,7 +127,7 @@
                   <span style="color: #00000073;margin-top: 15px">{{ info?.createTime }}</span>
                   <el-divider direction="vertical"/>
                   <span style="cursor: pointer" @click="doReplyUp(info)">
-                  <i class="iconfont icon-dianzan" v-if="isReplyUp"></i>
+                  <i class="iconfont icon-dianzan" v-if="!info.isUp"></i>
                 <i class="iconfont icon-dianzan1" v-else></i>
                 &nbsp;{{ info?.up }}
                 </span>
@@ -195,7 +195,6 @@ const getDiscussInfo = async (id: number) => {
   }
 }
 
-const isUp = ref<boolean>(true)
 const addDiscussUpReq = reactive<any>({
   id: null,
   uid: null,
@@ -208,12 +207,12 @@ const addDiscussUp = _.throttle(async (item: any) => {
   }
   addDiscussUpReq.id = item.id
   addDiscussUpReq.uid = userStore.currentUser.userId
-  if (isUp.value) {
+  if (!item.isUp) {
     item.up++
   } else {
     item.up--
   }
-  isUp.value = !isUp.value
+  item.isUp = !item.isUp
   const result = await addDiscussUpInfo(addDiscussUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
@@ -222,7 +221,6 @@ const addDiscussUp = _.throttle(async (item: any) => {
   }
 }, 1000)
 
-const isDown = ref<boolean>(true)
 const reduceDiscussUpReq = reactive<any>({
   id: null,
   uid: null,
@@ -235,12 +233,12 @@ const reduceDiscussUp = _.throttle(async (item: any) => {
   }
   reduceDiscussUpReq.id = item.id
   reduceDiscussUpReq.uid = userStore.currentUser.userId
-  if (isDown.value) {
+  if (!item.isDown) {
     item.down++
   } else {
     item.down--
   }
-  isDown.value = !isDown.value
+  item.isDown = !item.isDown
   const result = await addDiscussUpInfo(reduceDiscussUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
@@ -301,7 +299,6 @@ const DoDiscussComment = async (id: number) => {
   }
 }
 
-const isCommentUp = ref<boolean>(true)
 const addCommentUpReq = reactive<any>({})
 const doCommentUp = _.throttle(async (item: any) => {
   if (userStore.currentUser.userId == null) {
@@ -309,13 +306,13 @@ const doCommentUp = _.throttle(async (item: any) => {
     return;
   }
   addCommentUpReq.id = item.id
-  addCommentUpReq.uid = item.id
-  if (isCommentUp.value) {
+  addCommentUpReq.uid = userStore.currentUser.userId
+  if (!item.isUp) {
     item.up++
   } else {
     item.up--
   }
-  isCommentUp.value = !isCommentUp.value
+  item.isUp = !item.isUp
   const result = await doDiscussCommentUp(addCommentUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
@@ -324,7 +321,6 @@ const doCommentUp = _.throttle(async (item: any) => {
   }
 }, 1000)
 
-const isReplyUp = ref<boolean>(true)
 const addReplyUpReq = reactive<any>({})
 const doReplyUp = _.throttle(async (item: any) => {
   if (userStore.currentUser.userId == null) {
@@ -333,12 +329,12 @@ const doReplyUp = _.throttle(async (item: any) => {
   }
   addReplyUpReq.id = item.id
   addReplyUpReq.uid = userStore.currentUser.userId
-  if (isUp.value) {
+  if (!item.isUp) {
     item.up++
   } else {
     item.up--
   }
-  isReplyUp.value = !isReplyUp.value
+  item.isUp = !item.isUp
   const result = await doDiscussCommentReplyUp(addReplyUpReq)
   if (result.code == 0) {
     ElMessage.success('操作成功！')
