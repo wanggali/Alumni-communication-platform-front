@@ -268,9 +268,11 @@ const getTagId = (id: number) => {
 }
 
 const pageTotal = computed(() => {
-  const max = discussPageTotal.value > questionPageTotal.value ? discussPageTotal.value : questionPageTotal.value;
-  // return max>num3 ? max : num3;
-  return max
+  const arr = [discussPageTotal.value, questionPageTotal.value, dynamicPageTotal.value]
+  arr.sort((a, b) => {
+    return a - b;
+  })
+  return arr[2]
 })
 
 const dynamicPageTotal = ref(0);
