@@ -94,9 +94,6 @@
       <el-form-item label="地区">
         <college-select @get-college-id="getCollegeId"/>
       </el-form-item>
-      <el-form-item label="用户id">
-        <el-input v-model="userStore.currentUser.userId" disabled></el-input>
-      </el-form-item>
       <el-form-item label="上传头像">
         <el-upload
             :file-list="fileList"

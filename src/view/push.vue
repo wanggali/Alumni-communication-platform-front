@@ -112,9 +112,6 @@
       <el-form-item label="内推链接">
         <el-input v-model="addPushReq.pushUrl"></el-input>
       </el-form-item>
-      <el-form-item label="内推人">
-        <el-input v-model="userStore.currentUser.userId" disabled></el-input>
-      </el-form-item>
     </el-form>
     <template #footer>
 				<span class="dialog-footer">
