@@ -44,7 +44,13 @@
               <router-link target="_blank" :to="`/post/${item.id}`">
                 <h5>{{ item.title }}</h5>
               </router-link>
-              <v-md-preview :text="item.message"></v-md-preview>
+              <v-md-preview :text="item.message" style="
+                overflow: hidden;
+                white-space: normal;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;"></v-md-preview>
               <el-tag type="success" round>{{ item.tagName }}</el-tag>
               <div style="margin-top: 12px;">
                 <span style="color: #00000073;">{{ item.createTime }}</span>
@@ -97,7 +103,13 @@
               <router-link target="_blank" :to="`/question/${item.id}`">
                 <h5>{{ item.title }}</h5>
               </router-link>
-              <v-md-preview :text="item.content"></v-md-preview>
+              <v-md-preview :text="item.content" style="
+                overflow: hidden;
+                white-space: normal;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;"></v-md-preview>
               <el-tag type="success" round>{{ item.tagName }}</el-tag>
               <div style="margin-top: 12px;">
                 <span style="color: #00000073;">{{ item.createTime }}</span>
@@ -137,7 +149,13 @@
               <router-link target="_blank" :to="`/dynamic/${item.id}`">
                 <h5>首页动态</h5>
               </router-link>
-              <v-md-preview :text="item.content"></v-md-preview>
+              <v-md-preview :text="item.content" style="
+                overflow: hidden;
+                white-space: normal;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;"></v-md-preview>
               <el-tag type="success" round>{{ item.tagName }}</el-tag>
               <div style="margin-top: 12px;">
                 <span style="color: #00000073;">{{ item.createTime }}</span>

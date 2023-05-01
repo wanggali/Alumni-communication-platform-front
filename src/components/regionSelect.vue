@@ -13,7 +13,7 @@
 import {getRegionTreeInfo} from "../api/region";
 import {onMounted, reactive, ref} from "vue";
 
-const id = ref<bigint>(0n)
+const id = ref<number>(0)
 const region = ref<any>({regionName: "请选择地区"})
 /**
  * 子向父组件传值

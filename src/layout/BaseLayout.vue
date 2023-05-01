@@ -16,7 +16,7 @@
         </div>
         <el-menu-item index="/">首页</el-menu-item>
         <el-menu-item index="/origin">组织</el-menu-item>
-        <el-menu-item index="/posts">文章</el-menu-item>
+        <el-menu-item index="/posts">论坛</el-menu-item>
         <el-menu-item index="/push">内推</el-menu-item>
         <el-menu-item index="/userInfo">个人</el-menu-item>
         <div class="header-search">

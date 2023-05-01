@@ -91,7 +91,7 @@
       <el-form-item label="组织名">
         <el-input v-model="addOrigin.name"></el-input>
       </el-form-item>
-      <el-form-item label="地区">
+      <el-form-item label="学院">
         <college-select @get-college-id="getCollegeId"/>
       </el-form-item>
       <el-form-item label="上传头像">
