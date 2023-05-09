@@ -266,16 +266,17 @@ const addDiscussCommentDo = async () => {
   if (typeof id === "string") {
     addCommentReq.did = parseInt(id)
   }
+  addCommentReq.uid = userStore.currentUser.userId
   addCommentReq.content = comment.value
   const result = await addDiscussComment(addCommentReq)
   if (result.code == 0) {
-    ElMessage.success('评论成功')
     comment.value = ''
     if (typeof id === "string") {
       await DoDiscussComment(parseInt(id))
     }
+    ElMessage.success('评论成功')
   } else {
-    ElMessage.success(result.message)
+    ElMessage.error(result.message)
   }
 }
 

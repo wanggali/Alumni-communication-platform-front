@@ -32,7 +32,7 @@
                 <a>
                   <h5>{{ discussInfo.title }}</h5>
                 </a>
-                <v-md-preview :text="discussInfo.message"></v-md-preview>
+                <v-md-preview :text="discussInfo.content"></v-md-preview>
                 <el-tag type="success" round>{{ discussInfo.tagName }}</el-tag>
                 <div style="margin-top: 12px;">
                   <span style="color: #00000073;">{{ discussInfo.createTime }}</span>
