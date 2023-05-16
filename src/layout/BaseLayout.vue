@@ -20,7 +20,7 @@
         <el-menu-item index="/push">内推</el-menu-item>
         <el-menu-item index="/userInfo">个人</el-menu-item>
         <div class="header-search">
-          <el-input class="header-input" v-model="keyWord" placeholder="全站搜索" clearable/>
+          <el-input class="header-input" v-model="keyWord" placeholder="论坛搜索" clearable/>
           <div class="search-btn">
             <el-button color="#d5ebe1" :icon="Search" round @click="searchPosts">搜索</el-button>
           </div>

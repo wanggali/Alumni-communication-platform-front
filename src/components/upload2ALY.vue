@@ -38,6 +38,7 @@
 import {ref} from "vue";
 import {ElMessage, UploadUserFile} from "element-plus";
 import {uploadOssImg} from "../api/oss";
+import {UploadFile} from "element-plus/lib/components";
 
 /**
  * 子接受数据

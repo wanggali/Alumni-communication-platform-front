@@ -22,7 +22,7 @@
           <el-input v-model="addDiscuss.title"/>
         </el-form-item>
         <el-form-item label="文章封面">
-          <upload-aliyun :file="fileList" @get-aliyun-url="getALiYunUrl"/>
+          <Upload2ALY :file="fileList" @get-aliyun-url="getALiYunUrl"/>
         </el-form-item>
         <el-form-item>
 				<span>
@@ -41,9 +41,9 @@ import Content from "../components/content.vue";
 import {ElMessage, UploadUserFile} from "element-plus";
 import {addDiscussUpInfo, addDiscussInfo} from "../api/discuss";
 import Tag from "../components/tag.vue";
-import UploadAliyun from "../components/uploadAliyun.vue";
+import UploadAliyun from "../components/upload2ALY.vue";
 import {useUserStore} from "../stores/user";
-
+import Upload2ALY from "../components/upload2ALY.vue";
 const userStore = useUserStore()
 userStore.getUserInfo()
 

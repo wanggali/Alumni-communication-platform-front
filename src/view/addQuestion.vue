@@ -32,13 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, watch, reactive} from "vue";
+import {reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";
-import Content from "../components/content.vue";
-import {ElMessage, UploadUserFile} from "element-plus";
-import Tag from "../components/tag.vue";
-import UploadAliyun from "../components/uploadAliyun.vue";
-import {addDiscussInfo} from "../api/discuss";
+import {ElMessage} from "element-plus";
 import {addQuestionInfo} from "../api/question";
 import {useUserStore} from "../stores/user";
 

@@ -51,7 +51,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Tag: typeof import('./src/components/tag.vue')['default']
     TagSelect: typeof import('./src/components/tagSelect.vue')['default']
-    UploadAliyun: typeof import('./src/components/uploadAliyun.vue')['default']
+    Upload2ALY: typeof import('./src/components/upload2ALY.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
