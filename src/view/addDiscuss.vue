@@ -37,13 +37,14 @@
 <script setup lang="ts">
 import {onMounted, ref, watch, reactive} from "vue";
 import {useRouter} from "vue-router";
+import type {UploadFile, UploadUserFile} from 'element-plus'
 import Content from "../components/content.vue";
-import {ElMessage, UploadUserFile} from "element-plus";
+import {ElMessage} from "element-plus";
 import {addDiscussUpInfo, addDiscussInfo} from "../api/discuss";
 import Tag from "../components/tag.vue";
 import UploadAliyun from "../components/upload2ALY.vue";
 import {useUserStore} from "../stores/user";
-import Upload2ALY from "../components/upload2ALY.vue";
+
 const userStore = useUserStore()
 userStore.getUserInfo()
 
@@ -63,11 +64,13 @@ watch(message, (val) => {
   }
 })
 
-const addDiscuss = reactive<any>({})
+const addDiscuss = reactive<any>({
+  uid: null
+})
 const getTagId = (id: bigint) => {
   addDiscuss.tid = id
 }
-const fileList = ref<UploadUserFile[]>([])
+const fileList = ref<UploadUserFile []>([])
 const getALiYunUrl = (url: string) => {
   addDiscuss.cover = url
   active.value = 3

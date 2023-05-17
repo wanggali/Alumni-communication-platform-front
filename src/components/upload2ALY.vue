@@ -36,16 +36,16 @@
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import {ElMessage, UploadUserFile} from "element-plus";
+import {ElMessage} from "element-plus";
 import {uploadOssImg} from "../api/oss";
-import {UploadFile} from "element-plus/lib/components";
+import type {UploadFile,UploadUserFile } from 'element-plus'
 
 /**
  * 子接受数据
  **/
 const fileList = ref<UploadUserFile[]>([])
 const prop = defineProps<{
-  file: UploadUserFile[]
+  file: UploadUserFile []
 }>();
 fileList.value = prop.file
 
@@ -72,7 +72,7 @@ const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 const disabled = ref(false)
 
-const handleRemove = (file: UploadFile) => {
+const handleRemove = () => {
   fileList.value = []
 }
 
