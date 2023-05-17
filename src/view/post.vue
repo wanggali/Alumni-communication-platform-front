@@ -56,7 +56,7 @@
           <el-card class="comment">
             <div class="header">
               <div class="comment-header">
-                共{{ commentInfo?.total }}条评论
+                共{{ commentInfo?.total != null ? commentInfo?.total : 0 }}条评论
               </div>
               <div class="comment-sort">
                 <el-switch
